@@ -10,7 +10,8 @@ server/model/sessions/
 package-lock.json
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-
+# WhatsApp Web cache
+.wwebjs_cache/
 # Runtime data
 pids
 *.pid
