@@ -1,0 +1,16 @@
+.tm-steps-contacts{
+    padding: 28px;
+    height: calc(100% - 56px);
+    flex-direction: column;
+    width: 100%;
+
+    .tm-step-header{
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        img{
+            margin-right: 9px;
+            height: 48px;
+        }
+    }
+}

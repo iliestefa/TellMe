@@ -1,0 +1,150 @@
+:root {
+  --first-color: #EFF2FB;
+  --second-color: #84a98c;
+  --third-color: #52796f;
+  --fourth-color: #354f52;
+  --fifth-color: #383F74;
+  background-color: var(--first-color);
+}
+
+.tm-h1 {
+  font-family: "Fontdiner Swanky", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 56px;
+  color: var(--fifth-color);
+}
+
+.tm-h2 {
+  font-family: "Source Serif Pro", serif;
+  font-weight: 800;
+  font-style: normal;
+  font-size: 56px;
+  color: var(--fifth-color);
+}
+
+.tm-h3 {
+  font-family: "Source Serif Pro", serif;
+  font-weight: 800;
+  font-style: normal;
+  font-size: 32px;
+  color: var(--fifth-color);
+}
+
+.tm-h4 {
+  font-style: normal;
+  font-size: 14px;
+  color: var(--fourth-color);
+}
+
+.tm-h5 {
+  font-style: normal;
+  font-size: 12px;
+  color: var(--fourth-color);
+}
+
+textarea {
+  margin-top: 12px;
+  height: 96px;
+  border-radius: 12px;
+}
+
+.tm-h100 {
+  height: 100%;
+}
+
+.tm-flx {
+  display: flex;
+}
+
+.tm-flx-c {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+p {
+  margin: 0px;
+  font-size: 18px;
+}
+
+.tm-shadow {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1)
+}
+
+.App {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.tell-me-page {
+  display: flex;
+  height: calc(100% - 128px);
+  margin: 64px 200px;
+  justify-content: space-between;
+
+  .tm-right {
+    width: calc(100% - 324px);;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-right: 24px;
+  }
+
+  .tm-left {
+    justify-content: end;
+  }
+}
+
+.tm-br {
+  border-radius: 24px;
+}
+
+.app-buton {
+  margin-top: 12px !important;
+  width: 100px !important;
+  background-color: #373F73 !important;
+
+  &:hover {
+    background-color: #3d4783 !important;
+  }
+}
+
+.app-buton-secundary {
+  margin-top: 12px !important;
+  width: 100px !important;
+  margin-right: 12px !important;
+  border-color: #373F73 !important;
+  color: #373F73 !important;
+}
+
+.app-section-title{
+  &:first-of-type{
+    margin-top: 0px;
+  }
+  margin-top: 12px;
+  margin-bottom: 6px;
+}
+
+.app-loading {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 24px;
+  font-size: 64px;
+  animation: girar 2s linear infinite;
+  color: #656565;
+  height: 100px;
+}
+@keyframes girar {
+  0% {
+      transform: rotate(0deg);
+      /* Empieza en 0 grados */
+  }
+
+  100% {
+      transform: rotate(360deg);
+      /* Termina en 360 grados */
+  }
+}

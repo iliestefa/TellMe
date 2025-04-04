@@ -1,0 +1,27 @@
+.tm-steps-token {
+    padding: 28px;
+    height: calc(100% - 56px);
+    flex-direction: column;
+    width: 100%;
+
+    .tm-step-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+
+        img {
+            margin-right: 9px;
+            height: 42px;
+        }
+    }
+
+    .tm-step-double-input {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+
+        .tm-step-input {
+            width: 48%;
+        }
+    }
+}

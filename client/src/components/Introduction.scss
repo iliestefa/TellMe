@@ -1,0 +1,23 @@
+.tm-introduction {
+  height: 35%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  background-color: white;
+  border-radius: 30px;
+  .tm-introduction--left{
+    margin: 28px;
+  }
+  .tm-introduction--right{
+    height: 75%;
+    margin-right: 48px;
+    img{
+      height: 100%;
+      border-radius: 12px;
+    }
+    i{
+      margin: 30px;
+    }
+  }
+}

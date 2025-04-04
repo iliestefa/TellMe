@@ -1,0 +1,10 @@
+.tm-steps{
+    height: 62%;
+    display: flex;
+    .tm-card-step{
+        display: flex;
+        font-size: calc(10px + 2vmin);
+        background-color: white;
+        border-radius: 30px;
+    }
+}
