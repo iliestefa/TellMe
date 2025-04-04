@@ -45,32 +45,43 @@ const whatsappMultipleSchema = {
             },
             responses: {
                 "200": {
-                    description: "Mensajes enviados exitosamente",
+                    description: "Proceso encolado exitosamente",
                     content: {
                         "application/json": {
                             schema: {
                                 type: "object",
                                 properties: {
-                                    results: {
-                                        type: "array",
-                                        items: {
-                                            type: "object",
-                                            properties: {
-                                                contact: {
-                                                    type: "string",
-                                                    description: "Número de teléfono"
-                                                },
-                                                success: {
-                                                    type: "boolean",
-                                                    description: "Si el mensaje fue enviado exitosamente"
-                                                },
-                                                error: {
-                                                    type: "string",
-                                                    description: "Mensaje de error si hubo alguno"
-                                                }
+                                    status: {
+                                        type: "string",
+                                        description: "Estado de la operación"
+                                    },
+                                    message: {
+                                        type: "string",
+                                        description: "Mensaje descriptivo del resultado"
+                                    },
+                                    data: {
+                                        type: "object",
+                                        properties: {
+                                            userId: {
+                                                type: "string",
+                                                format: "uuid",
+                                                description: "UUID del usuario que envió el mensaje"
+                                            },
+                                            queuedAt: {
+                                                type: "string",
+                                                format: "date-time",
+                                                description: "Fecha y hora en que se encoló el mensaje"
                                             }
                                         }
                                     }
+                                }
+                            },
+                            example: {
+                                status: "OK",
+                                message: "Proceso encolado exitosamente",
+                                data: {
+                                    userId: "123e4567-e89b-12d3-a456-426614174000",
+                                    queuedAt: "2024-04-04T21:00:00.000Z"
                                 }
                             }
                         }
@@ -83,7 +94,7 @@ const whatsappMultipleSchema = {
                     description: "No se ha iniciado sesión o la sesión expiró"
                 },
                 "500": {
-                    description: "Error del servidor al enviar los mensajes"
+                    description: "Error del servidor al encolar los mensajes"
                 }
             }
         }
