@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const RabbitMQ = require('../config/rabbitmq');
-const orderSchema = require('../documentation/orders');
 const addEndpointToDoc = require('../documentation/addEndpointToDoc');
 const { Ws } = require('../model/Ws');
+const whatsappMultipleSchema = require('../documentation/whatsappMultiple');
+const whatsappSingleSchema = require('../documentation/whatsappSingle');
 
-addEndpointToDoc(orderSchema);
+addEndpointToDoc(whatsappMultipleSchema);
 router.post('/send-messages/:userId', async (req, res, next) => {
     try {
         const { userId } = req.params;
@@ -32,6 +33,7 @@ router.post('/send-messages/:userId', async (req, res, next) => {
     }
 });
 
+addEndpointToDoc(whatsappSingleSchema);
 router.post('/send-message/:userId', async (req, res) => {
     try {
         const { userId } = req.params;
