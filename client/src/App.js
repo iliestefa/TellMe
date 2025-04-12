@@ -6,7 +6,7 @@ import { useApp } from './components/ContextApp';
 import { useEffect, useRef } from 'react';
 import { io } from "socket.io-client";
 import { Alert } from '@mui/material';
-
+import ProcessDialog from './components/ProcessDialog';
 
 function App() {
   const { data, setData, messageSucess, messageError } = useApp();
@@ -129,6 +129,10 @@ function App() {
           severity="error">
           {messageError}
         </Alert>
+      }
+      {
+        <ProcessDialog
+          userId={userId} />
       }
     </div>
   );
