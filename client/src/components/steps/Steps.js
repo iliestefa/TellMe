@@ -15,10 +15,11 @@ function Steps() {
       {
         currentStep === "contacts" &&
         <Contacts
-          next={(contacts) => {
-            setData({ ...data, contacts });
+          next={() => {
             setCurrentStep("message");
           }}
+          contacts={data.contacts}
+          setContacts={(contacts) => setData({ ...data, contacts })}
         />
       }
       {

@@ -5,9 +5,11 @@ import Steps from './components/steps/Steps';
 import { useApp } from './components/ContextApp';
 import { useEffect, useRef } from 'react';
 import { io } from "socket.io-client";
+import { Alert } from '@mui/material';
+
 
 function App() {
-  const { data, setData } = useApp();
+  const { data, setData, messageSucess, messageError } = useApp();
   const { message, userId } = data;
   const socketRef = useRef(null);
 
@@ -112,6 +114,22 @@ function App() {
         <Preview
           message={message} />
       </div>
+      {
+        messageSucess &&
+        <Alert
+          className="app-alert"
+          severity="success">
+          {messageSucess}
+        </Alert>
+      }
+      {
+        messageError &&
+        <Alert
+          className="app-alert"
+          severity="error">
+          {messageError}
+        </Alert>
+      }
     </div>
   );
 }

@@ -14,16 +14,16 @@ function Message({ sendMessage, message, setMessage, back }) {
       <p className='app-section-title tm-h4'>Ingresa el mensaje que deseas enviar a todos tus contactos.</p>
       <TextField
         multiline
-        rows={3}
+        rows={5}
         variant="outlined"
         fullWidth
         value={message}
         placeholder='Hola, ¿cómo estás?'
-        onChange={(e) => setMessage(e.target.value)}
+        onChange={(e) => setMessage(e.target.value.slice(0, 250))}
       />
       <div className="tm-section-buttons">
         <Button className='app-buton-secundary' variant="outlined" onClick={back}>Atras</Button>
-        <Button className='app-buton' variant="contained" onClick={() => sendMessage()}>Enviar</Button>
+        <Button className='app-buton' variant="contained" onClick={() => sendMessage()} disabled={!message}>Enviar</Button>
       </div>
     </div>
   );

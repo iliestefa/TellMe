@@ -1,16 +1,27 @@
+@import '../../styles/_breakpoints.scss';
+
 .tm-steps-message{
-    padding: 28px;
-    height: calc(100% - 56px);
+    padding: 24px;
+    border-radius: 24px;
+    background-color: white;
+    display: flex;
     flex-direction: column;
-    width: 100%;
+    position: relative;
+    min-height: 300px;
+    height: calc(100% - 48px);
 
     .tm-step-header{
         display: flex;
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 24px;
         img{
-            margin-right: 9px;
-            height: 48px;
+            margin-right: 12px;
+            height: 42px;
         }
+    }
+
+    .tm-section-buttons {
+        margin-top: auto;
+        padding-top: 24px;
     }
 }

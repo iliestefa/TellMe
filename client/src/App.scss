@@ -1,3 +1,5 @@
+@import './styles/_breakpoints.scss';
+
 :root {
   --first-color: #EFF2FB;
   --second-color: #84a98c;
@@ -33,7 +35,7 @@
 
 .tm-h4 {
   font-style: normal;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--fourth-color);
 }
 
@@ -75,13 +77,28 @@ p {
 .App {
   height: 100vh;
   overflow: hidden;
+
+  @include mobile {
+    overflow:auto;
+  }
 }
 
 .tell-me-page {
   display: flex;
   height: calc(100% - 128px);
-  margin: 64px 200px;
+  margin: 64px 10%;
   justify-content: space-between;
+
+  @include tablet {
+    margin: 32px 5%;
+  }
+
+  @include mobile {
+    margin: 32px 5%;
+    flex-direction: column;
+    height:auto;
+  }
+  
 
   .tm-right {
     width: calc(100% - 324px);;
@@ -89,10 +106,18 @@ p {
     flex-direction: column;
     justify-content: space-between;
     margin-right: 24px;
+  
+    @include mobile {
+      width: 100%;
+    }
   }
 
   .tm-left {
     justify-content: end;
+    
+    @include mobile {
+      width: 100%;
+    }
   }
 }
 
@@ -108,6 +133,19 @@ p {
   &:hover {
     background-color: #3d4783 !important;
   }
+  &:disabled {
+    background-color: #b0b0b0 !important;
+    color: #ffffff !important;
+    cursor: not-allowed !important;
+    pointer-events:visible !important;
+  
+  }
+}
+
+.app-alert{
+  position: absolute;
+  top: 32px;
+  right: 32px;
 }
 
 .app-buton-secundary {
@@ -116,6 +154,22 @@ p {
   margin-right: 12px !important;
   border-color: #373F73 !important;
   color: #373F73 !important;
+}
+
+.tm-section-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  
+  @include mobile {
+    flex-direction: column;
+    align-items: stretch;
+    
+    .app-buton, .app-buton-secundary {
+      width: 100% !important;
+      margin-right: 0 !important;
+    }
+  }
 }
 
 .app-section-title{

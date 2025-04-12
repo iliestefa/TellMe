@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 const userId = localStorage.getItem("userId") || uuidv4();
 localStorage.setItem("userId", userId);
@@ -15,6 +15,20 @@ export function AppProvider({ children }) {
     qr: undefined,
     loading: false
   });
+
+  const [messageSucess, setMessageSucess] = useState();
+  const [messageError, setMessageError] = useState();
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (messageSucess) {
+        setMessageSucess();
+      }
+      if (messageError) {
+        setMessageError();
+      }
+    }, 5000);
+  }, [messageSucess, messageError]);
 
   const sendMessage = async () => {
     const { message, contacts, userId } = data;
@@ -37,13 +51,23 @@ export function AppProvider({ children }) {
 
       const data = await response.json();
       console.log("Respuesta de WhatsApp:", data);
+      setMessageSucess(data.message);
     } catch (error) {
       console.error("Error enviando el mensaje:", error);
+      setMessageError(error.message);
     }
   };
 
   return (
-    <AppContext.Provider value={{ data, setData, sendMessage }}>
+    <AppContext.Provider value={{
+      data,
+      setData,
+      sendMessage,
+      messageError,
+      messageSucess,
+      setMessageSucess,
+      setMessageError
+    }}>
       {children}
     </AppContext.Provider>
   );
