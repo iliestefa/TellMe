@@ -16,17 +16,22 @@ const axiosInstance = axios.create({
 async function sendMessage(userId, message, contact) {
 
     try {
-        const response = await axiosInstance.post(`/ws/send-message/${userId}`, {
-            message,
-            contact
-        });
+        const response = await axiosInstance.post(`/ws/send-message/${userId}`,
+            {
+                message,
+                contact
+            },
+            { 
+                timeout: 30000
+            }
+        );
 
         console.log('Respuesta del servidor:', response.data);
         return response.data;
     } catch (error) {
-        console.error('Error enviando mensaje:', error.message);
-        if (error.response) {
+        if (error.response?.data?.message) {
             console.error('Detalles del error:', error.response.data);
+            throw new Error(error.response.data.message);
         }
         throw error;
     }

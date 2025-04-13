@@ -10,9 +10,18 @@ async function startService() {
 
         channel.consume(QUEUE, async (msg) => {
             if (msg) {
-                try {
+                let message;
+
+                try{
                     console.log('Nuevo mensaje recibido de RabbitMQ');
-                    const message = JSON.parse(msg.content.toString());
+                    message = JSON.parse(msg.content.toString());
+                }catch (error) {
+                    console.error('Error al parsear el mensaje de RabbitMQ:', error.message);
+                    channel.ack(msg);
+                    return;
+                }
+
+                try {
                     
                     if (!message.retryCount) {
                         message.retryCount = 0;
@@ -23,19 +32,20 @@ async function startService() {
                 } catch (error) {
                     console.error('Error procesando mensaje de RabbitMQ:', error.message);
                     
-                    const originalMessage = JSON.parse(msg.content.toString());
-                    
-                    if (error.remainingContacts && error.remainingContacts.length > 0 && originalMessage.retryCount < MAX_RETRIES) {
+                    if ( message.retryCount < MAX_RETRIES ) {
                         const newMessage = {
-                            ...originalMessage,
-                            contacts: error.remainingContacts,
-                            retryCount: originalMessage.retryCount + 1
+                            ...message,
+                            retryCount: message.retryCount + 1
                         };
-                        
+
+                        if(error.remainingContacts && error.remainingContacts.length > 0 ){
+                            newMessage.contacts = error.remainingContacts;
+                        }
+                       
                         console.log(`Reintento ${newMessage.retryCount} de ${MAX_RETRIES} para los contactos restantes`);
                         channel.publish('', QUEUE, Buffer.from(JSON.stringify(newMessage)));
                     } else {
-                        console.log('Máximo número de reintentos alcanzado o no hay contactos restantes');
+                        console.log('Máximo número de reintentos alcanzado');
                     }
                     
                     channel.ack(msg);

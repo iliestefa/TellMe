@@ -9,11 +9,10 @@ const rateLimit = new Map();
 
 async function processMessageBatch(message) {
     let currentIndex = 0;
-    try {
-        console.log('Mensaje recibido de RabbitMQ:', JSON.stringify(message, null, 2));
-        const { userId, contacts, message: messageText } = message;
-        console.log(`Procesando lote de ${contacts.length} mensajes para el usuario ${userId}`);
+    const { userId, contacts, message: messageText } = message;
 
+    try {
+        console.log(`Procesando lote de ${contacts.length} mensajes para el usuario ${userId}`);
         await updateBatchStatus(userId, BATCH_STATUS.INIT, 5);
 
         for (let i = 0; i < contacts.length; i++) {
@@ -41,21 +40,11 @@ async function processMessageBatch(message) {
             const delay = Math.floor(Math.random() * (MAX_DELAY - MIN_DELAY + 1)) + MIN_DELAY;
             await new Promise(resolve => setTimeout(resolve, delay));
 
-            try {
-                await sendMessage(userId, messageText, contact);
-                clientRateLimit.count++;
-                rateLimit.set(userId, clientRateLimit);
-                console.log(`Mensaje enviado exitosamente a ${contact}`);
-            } catch (error) {
-                console.error(`Error enviando mensaje a ${contact}:`, error.message);
-                throw {
-                    error: new Error(`Error enviando mensaje a ${contact}: ${error.message}`),
-                    remainingContacts: contacts.slice(i)
-                };
-            }
+            await sendMessage(userId, messageText, contact);
+            clientRateLimit.count++;
+            rateLimit.set(userId, clientRateLimit);
         }
         await updateBatchStatus(userId, BATCH_STATUS.COMPLETED, 100);
-        console.log('Proceso de lote completado exitosamente');
     } catch (error) {
         console.error('Error procesando lote de mensajes:', error.message);
         const progress = 5 + Math.floor((currentIndex / contacts.length) * 90);
@@ -63,8 +52,14 @@ async function processMessageBatch(message) {
             userId, 
             BATCH_STATUS.ERROR, 
             progress,
-            error.error || error
+            error.message || error
         );
+        if(currentIndex && contacts){
+            throw {
+                error,
+                remainingContacts: contacts.slice(currentIndex)
+            };
+        }
         throw error;
     }
 }

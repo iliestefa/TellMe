@@ -8,6 +8,7 @@ const { Server } = require("socket.io");
 const http = require("http");
 const RabbitMQ = require('./config/rabbitmq');
 const { Ws } = require('./model/Ws');
+const connectToMongo = require('./config/mongo');
 
 const WSroutes = require('./routes/ws');
 const {
@@ -66,6 +67,8 @@ io.on('connection', (socket) => {
         console.error('Error inicializando servicios:', error);
     }
 })();
+
+connectToMongo();
 
 app.use(cors());
 app.use(bodyParser.json());

@@ -41,7 +41,7 @@ async function updateBatchStatus(userId, status, percentage, error = null) {
 
         if (error) {
             updateData.error = {
-                message: error.message,
+                message: error,
                 timestamp: now
             };
         }
