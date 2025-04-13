@@ -1,13 +1,15 @@
 require('dotenv').config();
 const { processMessageBatch } = require('./utils/proccessMessage');
 const { initializeRabbitMQ, QUEUE } = require('./config/rabbitmq');
+const connectToMongo = require('./config/mongo');
 
 const MAX_RETRIES = 3;
 
 async function startService() {
     try {
+        
         const { connection, channel } = await initializeRabbitMQ();
-
+        await connectToMongo();
         channel.consume(QUEUE, async (msg) => {
             if (msg) {
                 let message;

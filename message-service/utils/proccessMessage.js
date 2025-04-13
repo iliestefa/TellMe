@@ -40,7 +40,7 @@ async function processMessageBatch(message) {
             const delay = Math.floor(Math.random() * (MAX_DELAY - MIN_DELAY + 1)) + MIN_DELAY;
             await new Promise(resolve => setTimeout(resolve, delay));
 
-            await sendMessage(userId, messageText, contact);
+            await sendMessage({userId, message:messageText, contact});
             clientRateLimit.count++;
             rateLimit.set(userId, clientRateLimit);
         }
