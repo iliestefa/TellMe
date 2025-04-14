@@ -26,6 +26,7 @@ class Ws {
                 backupSyncIntervalMs: 60000,
             }),
             puppeteer: {
+                executablePath: '/usr/bin/chromium',
                 headless: true,
                 args: [
                     '--no-sandbox',

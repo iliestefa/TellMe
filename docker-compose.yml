@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001" 
+    env_file:
+      - .env
+    environment:
+      - PORT=3001
+    restart: always
+    depends_on:
+      - message-service
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "80:80" 
+    restart: always
+    env_file:
+      - .env
+
+  message-service:
+    build:
+      context: ./message-service
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - internal 
+
+networks:
+  internal:
+    driver: bridge

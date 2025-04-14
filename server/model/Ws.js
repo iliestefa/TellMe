@@ -28,6 +28,7 @@ class Ws {
                     backupSyncIntervalMs: 60000,
                 }),
                 puppeteer: {
+                    executablePath:  '/usr/bin/chromium',
                     headless: true,
                     args: [
                         '--no-sandbox',
@@ -100,6 +101,7 @@ class Ws {
                             backupSyncIntervalMs: 60000,
                         }),
                         puppeteer: {
+                            executablePath:  '/usr/bin/chromium', // Ruta al binario de Chromium
                             headless: true,
                             args: [
                                 '--no-sandbox',
