@@ -6,11 +6,9 @@ services:
       context: ./server
       dockerfile: Dockerfile
     ports:
-      - "3001:3001" 
+      - "3001:3001"
     env_file:
       - .env
-    environment:
-      - PORT=3001
     restart: always
     depends_on:
       - message-service
@@ -20,10 +18,10 @@ services:
       context: ./client
       dockerfile: Dockerfile
     ports:
-      - "80:80" 
-    restart: always
+      - "80:80"
     env_file:
       - .env
+    restart: always
 
   message-service:
     build:
@@ -32,9 +30,3 @@ services:
     env_file:
       - .env
     restart: always
-    networks:
-      - internal 
-
-networks:
-  internal:
-    driver: bridge
