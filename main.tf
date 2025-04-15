@@ -52,7 +52,7 @@ resource "aws_instance" "app_instance" {
   security_groups = [aws_security_group.allow_http_ssh.name]
 
   tags = {
-    Name = "docker-app-instance"
+    Name = "tell-me"
   }
 
   user_data = <<-EOF
