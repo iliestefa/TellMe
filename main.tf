@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1" # Cambia esto según tu región
+  region = "us-east-1"
 }
 
 resource "tls_private_key" "deployer_key" {
@@ -14,7 +14,7 @@ resource "aws_key_pair" "deployer_key" {
 
 resource "aws_security_group" "allow_http_ssh" {
   name        = "allow_http_ssh"
-  description = "Permitir tráfico HTTP, HTTPS y SSH"
+  description = "Allow HTTP, HTTPS, and SSH traffic"
 
   ingress {
     from_port   = 22
