@@ -37,7 +37,3 @@ jobs:
 
       - name: Apply Terraform
         run: terraform apply -auto-approve
-
-      - name: Get EC2 public IP and set it as an environment variable
-        run: |
-          echo "EC2_PUBLIC_IP=$(terraform output -raw public_ip | grep -oP '\d+\.\d+\.\d+\.\d+')" >> $GITHUB_ENV

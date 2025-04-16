@@ -10,6 +10,10 @@ provider "aws" {
   region = "us-east-1"
 }
 
+resource "aws_eip" "app_ip" {
+  vpc = true
+}
+
 resource "aws_security_group" "allow_http_ssh" {
   name        = "allow_http_ssh"
   description = "Allow HTTP, HTTPS, and SSH traffic"
@@ -66,6 +70,11 @@ resource "aws_instance" "app_instance" {
               EOF
 }
 
-output "public_ip" {
-  value = aws_instance.app_instance.public_ip
+resource "aws_eip_association" "example" {
+  instance_id   = aws_instance.app_instance.id
+  allocation_id = aws_eip.app_ip.id
+}
+
+output "elastic_ip" {
+  value = aws_eip.app_ip.public_ip
 }
