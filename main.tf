@@ -2,19 +2,22 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "tls_private_key" "deployer_key" {
-  algorithm = "RSA"
-  rsa_bits  = 2048
-}
-
+# Crear un Key Pair solo si no existe
 resource "aws_key_pair" "deployer_key" {
   key_name   = "deployer-key"
   public_key = tls_private_key.deployer_key.public_key_openssh
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group" "allow_http_ssh" {
   name        = "allow_http_ssh"
   description = "Allow HTTP, HTTPS, and SSH traffic"
+  
+  lifecycle {
+    create_before_destroy = true
+  }
 
   ingress {
     from_port   = 22
@@ -43,6 +46,11 @@ resource "aws_security_group" "allow_http_ssh" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+resource "tls_private_key" "deployer_key" {
+  algorithm = "RSA"
+  rsa_bits  = 2048
 }
 
 resource "aws_instance" "app_instance" {
