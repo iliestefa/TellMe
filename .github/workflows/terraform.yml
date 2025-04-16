@@ -35,13 +35,10 @@ jobs:
       - name: Plan Terraform
         run: terraform plan
 
-      - name: Destroy previous infrastructure
-        run: terraform destroy -auto-approve
-
       - name: Apply Terraform
         run: terraform apply -auto-approve
 
-      - name: Get EC2 public IP and export
+      - name: Get EC2 public IP and set it as an environment variable
         run: |
-          PUBLIC_IP=$(terraform output -raw public_ip)
-          echo "EC2_PUBLIC_IP=${PUBLIC_IP}" >> $GITHUB_ENV
+          export PUBLIC_IP=$(terraform output -raw public_ip | tr -d '\r')
+          echo "EC2_PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
