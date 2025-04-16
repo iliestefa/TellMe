@@ -43,10 +43,13 @@ jobs:
         echo "${{ steps.apply.outputs.private_key }}" > deployer-key.pem
         chmod 600 deployer-key.pem
 
-    - name: Save private key as GitHub secret
-      run: echo "PRIVATE_KEY=$(cat deployer-key.pem)" >> $GITHUB_ENV
-
-    - name: Save EC2 public IP as GitHub secret
+    - name: Save private key
       run: |
-        EC2_PUBLIC_IP=$(terraform output -raw public_ip)
-        echo "EC2_PUBLIC_IP=$EC2_PUBLIC_IP" >> $GITHUB_ENV
+        terraform output -raw private_key > deployer-key.pem
+        chmod 600 deployer-key.pem
+        echo "PRIVATE_KEY=$(cat deployer-key.pem)" >> $GITHUB_ENV
+
+    - name: Get EC2 public IP and set it as an environment variable
+      run: |
+        PUBLIC_IP=$(terraform output -raw public_ip)
+        echo "EC2_PUBLIC_IP=${PUBLIC_IP}" >> $GITHUB_ENV
