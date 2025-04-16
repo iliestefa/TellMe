@@ -41,15 +41,6 @@ jobs:
       - name: Apply Terraform
         run: terraform apply -auto-approve
 
-      - name: Save private key to file
-        run: |
-          terraform output -raw private_key > deployer-key.pem
-          chmod 600 deployer-key.pem
-
-      - name: Export private key to env variable
-        run: |
-          echo "PRIVATE_KEY=$(cat deployer-key.pem)" >> $GITHUB_ENV
-
       - name: Get EC2 public IP and export
         run: |
           PUBLIC_IP=$(terraform output -raw public_ip)

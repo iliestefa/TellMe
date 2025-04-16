@@ -10,15 +10,6 @@ provider "aws" {
   region = "us-east-1"
 }
 
-# Crear un Key Pair solo si no existe
-resource "aws_key_pair" "deployer_key" {
-  key_name   = "deployer-key"
-  public_key = tls_private_key.deployer_key.public_key_openssh
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
 resource "aws_security_group" "allow_http_ssh" {
   name        = "allow_http_ssh"
   description = "Allow HTTP, HTTPS, and SSH traffic"
@@ -56,15 +47,10 @@ resource "aws_security_group" "allow_http_ssh" {
   }
 }
 
-resource "tls_private_key" "deployer_key" {
-  algorithm = "RSA"
-  rsa_bits  = 2048
-}
-
 resource "aws_instance" "app_instance" {
-  ami           = "ami-0c02fb55956c7d316" # Ubuntu 20.04 AMI
-  instance_type = "t2.micro"
-  key_name      = aws_key_pair.deployer_key.key_name
+  ami             = "ami-0c02fb55956c7d316" # Ubuntu 20.04
+  instance_type   = "t2.micro"
+  key_name        = "tellme"
   security_groups = [aws_security_group.allow_http_ssh.name]
 
   tags = {
@@ -78,11 +64,6 @@ resource "aws_instance" "app_instance" {
               systemctl start docker
               systemctl enable docker
               EOF
-}
-
-output "private_key" {
-  value     = tls_private_key.deployer_key.private_key_pem
-  sensitive = true
 }
 
 output "public_ip" {
