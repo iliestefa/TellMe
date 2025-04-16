@@ -40,7 +40,7 @@ jobs:
 
     - name: Save private key
       run: |
-        echo "${{ steps.apply.outputs.private_key }}" > deployer-key.pem
+        echo "${{  terraform output -raw private_key }}" > deployer-key.pem
         chmod 600 deployer-key.pem
 
     - name: Save private key
