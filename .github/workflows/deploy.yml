@@ -15,7 +15,7 @@ jobs:
 
     - name: Deploy on EC2
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
         # Cambiar al directorio del proyecto o clonar si no existe
         if [ ! -d "/home/ubuntu/TellMe" ]; then
           git clone https://github.com/<your-username>/<your-repo>.git /home/ubuntu/TellMe
