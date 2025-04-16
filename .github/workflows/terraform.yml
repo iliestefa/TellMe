@@ -48,4 +48,5 @@ jobs:
 
     - name: Save EC2 public IP as GitHub secret
       run: |
-        echo "EC2_PUBLIC_IP=$(terraform output -raw public_ip)" >> $GITHUB_ENV
+        EC2_PUBLIC_IP=$(terraform output -raw public_ip)
+        echo "EC2_PUBLIC_IP=$EC2_PUBLIC_IP" >> $GITHUB_ENV
