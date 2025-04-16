@@ -12,44 +12,45 @@ jobs:
       contents: read
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Configure AWS credentials (via OIDC)
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        role-to-assume: arn:aws:iam::944331437251:role/github_deploy
-        aws-region: us-east-1
+      - name: Configure AWS credentials (via OIDC)
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::944331437251:role/github_deploy
+          aws-region: us-east-1
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
-      with:
-        terraform_version: 1.5.0
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.0
 
-    - name: Initialize Terraform
-      run: terraform init
+      - name: Initialize Terraform
+        run: terraform init
 
-    - name: Plan Terraform
-      run: terraform plan
+      - name: Validate Terraform
+        run: terraform validate
 
-    - name: Destroy previous infrastructure
-      run: terraform destroy -auto-approve
+      - name: Plan Terraform
+        run: terraform plan
 
-    - name: Apply Terraform
-      run: terraform apply -auto-approve
+      - name: Destroy previous infrastructure
+        run: terraform destroy -auto-approve
 
-    - name: Save private key
-      run: |
-        echo "${{  terraform output -raw private_key }}" > deployer-key.pem
-        chmod 600 deployer-key.pem
+      - name: Apply Terraform
+        run: terraform apply -auto-approve
 
-    - name: Save private key
-      run: |
-        terraform output -raw private_key > deployer-key.pem
-        chmod 600 deployer-key.pem
-        echo "PRIVATE_KEY=$(cat deployer-key.pem)" >> $GITHUB_ENV
+      - name: Save private key to file
+        run: |
+          terraform output -raw private_key > deployer-key.pem
+          chmod 600 deployer-key.pem
 
-    - name: Get EC2 public IP and set it as an environment variable
-      run: |
-        PUBLIC_IP=$(terraform output -raw public_ip)
-        echo "EC2_PUBLIC_IP=${PUBLIC_IP}" >> $GITHUB_ENV
+      - name: Export private key to env variable
+        run: |
+          echo "PRIVATE_KEY=$(cat deployer-key.pem)" >> $GITHUB_ENV
+
+      - name: Get EC2 public IP and export
+        run: |
+          PUBLIC_IP=$(terraform output -raw public_ip)
+          echo "EC2_PUBLIC_IP=${PUBLIC_IP}" >> $GITHUB_ENV
