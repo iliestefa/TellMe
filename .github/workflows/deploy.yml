@@ -16,44 +16,48 @@ jobs:
     - name: Deploy on EC2
       run: |
         ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
+
         # Cambiar al directorio del proyecto o clonar si no existe
-        if [ ! -d "/home/ubuntu/TellMe" ]; then
-          git clone https://github.com/iliestefa/TellMe.git /home/ubuntu/TellMe
+        if [ ! -d "/home/ec2-user/TellMe" ]; then
+          sudo git clone https://github.com/iliestefa/TellMe.git /home/ec2-user/TellMe
         else
-          cd /home/ubuntu/TellMe
-          git reset --hard # Opcional: limpia cambios locales
-          git pull origin main
+          cd /home/ec2-user/TellMe
+          sudo git reset --hard # Opcional: limpia cambios locales
+          sudo git pull origin main
         fi
 
-        echo "RABBITMQ_URL=${{ secrets.RABBITMQ_URL }}" > /home/ubuntu/TellMe/server/.env
-        echo "RABBITMQ_USER=${{ secrets.RABBITMQ_USER }}" >> /home/ubuntu/TellMe/server/.env
-        echo "RABBITMQ_PASSWORD=${{ secrets.RABBITMQ_PASSWORD }}" >> /home/ubuntu/TellMe/server/.env
-        echo "RABBITMQ_VHOST=${{ secrets.RABBITMQ_VHOST }}" >> /home/ubuntu/TellMe/server/.env
-        echo "QUEUE=${{ secrets.QUEUE }}" >> /home/ubuntu/TellMe/server/.env
-        echo "WS_SERVER_URL=${{ secrets.WS_SERVER_URL }}" >> /home/ubuntu/TellMe/server/.env
-        echo "FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" >> /home/ubuntu/TellMe/server/.env
-        echo "FIREBASE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}" >> /home/ubuntu/TellMe/server/.env
-        echo "FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}" >> /home/ubuntu/TellMe/server/.env
-        echo "FIREBASE_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET }}" >> /home/ubuntu/TellMe/server/.env
-        echo "FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}" >> /home/ubuntu/TellMe/server/.env
-        echo "FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}" >> /home/ubuntu/TellMe/server/.env
-        echo "FIREBASE_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID }}" >> /home/ubuntu/TellMe/server/.env
-        echo "REACT_APP_FIREBASE_API_KEY=${{ secrets.REACT_APP_FIREBASE_API_KEY }}" >> /home/ubuntu/TellMe/server/.env
-        echo "REACT_APP_FIREBASE_AUTH_DOMAIN=${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}" >> /home/ubuntu/TellMe/server/.env
-        echo "REACT_APP_FIREBASE_PROJECT_ID=${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}" >> /home/ubuntu/TellMe/server/.env
-        echo "REACT_APP_FIREBASE_STORAGE_BUCKET=${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}" >> /home/ubuntu/TellMe/server/.env
-        echo "REACT_APP_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}" >> /home/ubuntu/TellMe/server/.env
-        echo "REACT_APP_FIREBASE_APP_ID=${{ secrets.REACT_APP_FIREBASE_APP_ID }}" >> /home/ubuntu/TellMe/server/.env
-        echo "REACT_APP_FIREBASE_MEASUREMENT_ID=${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}" >> /home/ubuntu/TellMe/server/.env
-        echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> /home/ubuntu/TellMe/server/.env
-        echo "REDIS_URL=${{ secrets.REDIS_URL }}" >> /home/ubuntu/TellMe/server/.env
-        echo "SERVER_PORT=${{ secrets.SERVER_PORT }}" >> /home/ubuntu/TellMe/server/.env
+        # Crear el archivo .env y asegurarse de que se tengan permisos para escribir en él
+        sudo bash -c "echo 'RABBITMQ_URL=${{ secrets.RABBITMQ_URL }}' > /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'RABBITMQ_USER=${{ secrets.RABBITMQ_USER }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'RABBITMQ_PASSWORD=${{ secrets.RABBITMQ_PASSWORD }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'RABBITMQ_VHOST=${{ secrets.RABBITMQ_VHOST }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'QUEUE=${{ secrets.QUEUE }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'WS_SERVER_URL=${{ secrets.WS_SERVER_URL }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'FIREBASE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'FIREBASE_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'FIREBASE_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'REACT_APP_FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'REACT_APP_FIREBASE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'REACT_APP_FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'REACT_APP_FIREBASE_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'REACT_APP_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'REACT_APP_FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'REACT_APP_FIREBASE_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'MONGO_URI=${{ secrets.MONGO_URI }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'REDIS_URL=${{ secrets.REDIS_URL }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'SERVER_PORT=${{ secrets.SERVER_PORT }}' >> /home/ec2-user/TellMe/server/.env"
 
-        cp /home/ubuntu/TellMe/server/.env /home/ubuntu/TellMe/client/.env
-        cp /home/ubuntu/TellMe/server/.env /home/ubuntu/TellMe/message-service/.env
+        # Copiar el archivo .env a otras ubicaciones
+        sudo cp /home/ec2-user/TellMe/server/.env /home/ec2-user/TellMe/client/.env
+        sudo cp /home/ec2-user/TellMe/server/.env /home/ec2-user/TellMe/message-service/.env
 
         # Construir y desplegar los contenedores
-        cd /home/ubuntu/TellMe
-        docker-compose pull
-        docker-compose up --build -d
+        cd /home/ec2-user/TellMe
+        sudo docker-compose pull
+        sudo docker-compose up --build -d
+
         EOF

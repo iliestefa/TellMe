@@ -74,6 +74,7 @@ resource "aws_instance" "app_instance" {
 
               docker --version
               docker-compose --version
+              yum install -y git
               EOF
 }
 
