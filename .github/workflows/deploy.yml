@@ -18,7 +18,7 @@ jobs:
         ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
         # Cambiar al directorio del proyecto o clonar si no existe
         if [ ! -d "/home/ubuntu/TellMe" ]; then
-          git clone https://github.com/<your-username>/<your-repo>.git /home/ubuntu/TellMe
+          git clone https://github.com/iliestefa/TellMe.git /home/ubuntu/TellMe
         else
           cd /home/ubuntu/TellMe
           git reset --hard # Opcional: limpia cambios locales
