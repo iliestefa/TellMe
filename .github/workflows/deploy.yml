@@ -57,7 +57,7 @@ jobs:
 
         # Construir y desplegar los contenedores
         cd /home/ec2-user/TellMe
-        sudo docker-compose pull
-        sudo docker-compose up --build -d
+        docker-compose pull
+        docker-compose up --build -d
 
         EOF
