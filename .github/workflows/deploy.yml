@@ -54,6 +54,7 @@ jobs:
         # Copiar el archivo .env a otras ubicaciones
         sudo cp /home/ec2-user/TellMe/server/.env /home/ec2-user/TellMe/client/.env
         sudo cp /home/ec2-user/TellMe/server/.env /home/ec2-user/TellMe/message-service/.env
+        sudo cp /home/ec2-user/TellMe/server/.env /home/ec2-user/TellMe/.env
 
         # Construir y desplegar los contenedores
         cd /home/ec2-user/TellMe
