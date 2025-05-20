@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configurar la variable de entorno
-export HOST=tellme.developer.iliestefa.com
+export HOST=tellme.iliestefa.com
 
 # Instalar Certbot y sus dependencias
 sudo amazon-linux-extras install epel -y

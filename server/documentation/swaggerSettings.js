@@ -12,7 +12,7 @@ module.exports = {
         },
         servers: [
             {
-                url: process.env.API_URL || 'https://tellme.developer.iliestefa.com:3001',
+                url: process.env.API_URL,
                 description: 'Servidor de producción'
             }
         ],
