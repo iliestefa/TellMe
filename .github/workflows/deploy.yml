@@ -6,6 +6,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
     - name: Set up SSH
@@ -13,20 +14,19 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.PRIVATE_KEY }}
 
-    - name: Deploy on EC2
+    - name: Update Code and Config
       run: |
-        ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
-
+        ssh -o ServerAliveInterval=60 -o ServerAliveCountMax=3 -t -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
         # Cambiar al directorio del proyecto o clonar si no existe
         if [ ! -d "/home/ec2-user/TellMe" ]; then
           sudo git clone https://github.com/iliestefa/TellMe.git /home/ec2-user/TellMe
         else
           cd /home/ec2-user/TellMe
-          sudo git reset --hard # Opcional: limpia cambios locales
+          sudo git reset --hard
           sudo git pull origin main
         fi
 
-        # Crear el archivo .env y asegurarse de que se tengan permisos para escribir en él
+        # Crear el archivo .env
         sudo bash -c "echo 'RABBITMQ_URL=${{ secrets.RABBITMQ_URL }}' > /home/ec2-user/TellMe/server/.env"
         sudo bash -c "echo 'RABBITMQ_USER=${{ secrets.RABBITMQ_USER }}' >> /home/ec2-user/TellMe/server/.env"
         sudo bash -c "echo 'RABBITMQ_PASSWORD=${{ secrets.RABBITMQ_PASSWORD }}' >> /home/ec2-user/TellMe/server/.env"
@@ -59,10 +59,27 @@ jobs:
         sudo cp /home/ec2-user/TellMe/server/.env /home/ec2-user/TellMe/client/.env
         sudo cp /home/ec2-user/TellMe/server/.env /home/ec2-user/TellMe/message-service/.env
         sudo cp /home/ec2-user/TellMe/server/.env /home/ec2-user/TellMe/.env
+        EOF
 
-        # Construir y desplegar los contenedores
+    - name: Build and Deploy
+      run: |
+        ssh -o ServerAliveInterval=60 -o ServerAliveCountMax=3 -t -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
         cd /home/ec2-user/TellMe
+        
+        # Configurar caché de Docker
+        echo "Configurando caché de Docker..."
+        docker buildx create --use
+        
+        echo "Deteniendo contenedores..."
+        docker-compose down
+        
+        echo "Puliendo imágenes..."
         docker-compose pull
-        docker-compose up --build -d
-
+        
+        echo "Construyendo y levantando contenedores con caché..."
+        COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build --build-arg BUILDKIT_INLINE_CACHE=1
+        docker-compose up -d
+        
+        echo "Verificando estado..."
+        docker-compose ps
         EOF
