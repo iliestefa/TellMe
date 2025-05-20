@@ -16,9 +16,12 @@ jobs:
 
     - name: Install Docker and Docker Compose
       run: |
+        echo "Verificando sistema operativo..."
+        cat /etc/os-release
+        
         echo "Instalando Docker y Docker Compose..."
-        sudo dnf update -y
-        sudo dnf install -y docker
+        sudo apt-get update
+        sudo apt-get install -y docker.io
         sudo systemctl start docker
         sudo usermod -a -G docker ec2-user
         sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
