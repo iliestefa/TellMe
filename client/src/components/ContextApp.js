@@ -33,7 +33,7 @@ export function AppProvider({ children }) {
   const sendMessage = async () => {
     const { message, contacts, userId } = data;
     console.log("Sending message: ", { message, contacts, userId });
-    const url = `http://localhost:3001/ws/send-messages/${userId}`;
+    const url = `${process.env.REACT_APP_API_URL}:3001/ws/send-messages/${userId}`;
 
     const payload = {
       message,

@@ -34,7 +34,7 @@ function App() {
     }
 
     console.log('Creando nueva conexión socket');
-    socketRef.current = io("http://localhost:3001", {
+    socketRef.current = io(`${process.env.REACT_APP_API_URL}:3001`, {
       reconnection: true,
       reconnectionAttempts: 5,
       reconnectionDelay: 1000

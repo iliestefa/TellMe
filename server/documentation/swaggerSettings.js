@@ -12,8 +12,8 @@ module.exports = {
         },
         servers: [
             {
-                url: 'http://localhost:3001',
-                description: 'Servidor de desarrollo'
+                url: process.env.API_URL || 'https://tellme.developer.iliestefa.com:3001',
+                description: 'Servidor de producción'
             }
         ],
         tags: [

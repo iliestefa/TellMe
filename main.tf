@@ -37,6 +37,13 @@ resource "aws_security_group" "allow_http_ssh" {
   }
 
   ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     from_port   = 3001
     to_port     = 3001
     protocol    = "tcp"
@@ -72,9 +79,20 @@ resource "aws_instance" "app_instance" {
               curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
               chmod +x /usr/local/bin/docker-compose
 
+              # Instalar Certbot y sus dependencias
+              amazon-linux-extras install epel -y
+              yum install -y certbot python3-certbot-nginx
+
+              # Crear directorio para certificados
+              mkdir -p /etc/letsencrypt/live/tellme.developer.iliestefa.com
+
               docker --version
               docker-compose --version
               yum install -y git
+              usermod -aG docker ec2-user
+
+              # Configurar el certificado SSL
+              certbot --nginx -d tellme.developer.iliestefa.com --non-interactive --agree-tos --email developer@iliestefa.com
               EOF
 }
 

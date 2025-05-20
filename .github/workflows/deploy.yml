@@ -50,6 +50,10 @@ jobs:
         sudo bash -c "echo 'MONGO_URI=${{ secrets.MONGO_URI }}' >> /home/ec2-user/TellMe/server/.env"
         sudo bash -c "echo 'REDIS_URL=${{ secrets.REDIS_URL }}' >> /home/ec2-user/TellMe/server/.env"
         sudo bash -c "echo 'SERVER_PORT=${{ secrets.SERVER_PORT }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'HOST=${{ secrets.HOST }}' >> /home/ec2-user/TellMe/server/.env"
+        sudo bash -c "echo 'REACT_APP_HOST=${{ secrets.HOST }}' >> /home/ec2-user/TellMe/client/.env"
+        sudo bash -c "echo 'REACT_APP_API_URL=${{ secrets.API_URL }}' >> /home/ec2-user/TellMe/client/.env"
+        sudo bash -c "echo 'API_URL=${{ secrets.API_URL }}' >> /home/ec2-user/TellMe/client/.env"
 
         # Copiar el archivo .env a otras ubicaciones
         sudo cp /home/ec2-user/TellMe/server/.env /home/ec2-user/TellMe/client/.env
