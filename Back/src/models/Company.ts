@@ -1,6 +1,7 @@
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
 import pool from '../config/database';
 import { Company, CreateCompanyDTO, UpdateCompanyDTO } from '../types/company.types';
+import { AppError } from '../utils/AppError';
 
 export class CompanyModel {
   static async findAll(): Promise<Company[]> {
@@ -27,7 +28,7 @@ export class CompanyModel {
     const company = await this.findById(result.insertId);
     
     if (!company) {
-      throw new Error('Error al crear la empresa');
+      throw new AppError('Error al crear la empresa', 500);
     }
     
     return company;

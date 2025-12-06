@@ -24,7 +24,7 @@ export const handleValidationErrors = (
       message: err.msg,
     }));
     
-    throw new ValidationError(formattedErrors);
+    return next(new ValidationError(formattedErrors));
   }
 
   return next();
