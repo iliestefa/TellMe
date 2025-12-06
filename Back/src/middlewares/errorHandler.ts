@@ -8,7 +8,6 @@ export const errorHandler = (
   res: Response,
   _next: NextFunction,
 ) => {
-  // Errores de validación
   if (err instanceof ValidationError) {
     return res.status(err.statusCode).json({
       message: err.message,
@@ -18,7 +17,6 @@ export const errorHandler = (
     });
   }
 
-  // Errores controlados
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
       message: err.message,
@@ -27,11 +25,10 @@ export const errorHandler = (
     });
   }
 
-  // Error no controlado
-  console.error('ERROR NO CONTROLADO:', err);
+  console.error('UNHANDLED ERROR:', err);
   
   return res.status(500).json({
-    message: 'Error interno del servidor',
+    message: 'Internal server error',
     statusCode: 500,
     ...(process.env.NODE_ENV === 'development' && { 
       stack: err.stack,

@@ -19,13 +19,13 @@ export class CompanyController {
       const id = parseInt(req.params.id);
 
       if (isNaN(id)) {
-        throw new AppError('ID inválido', 400);
+        throw new AppError(400, 'Invalid ID');
       }
 
       const company = await CompanyModel.findById(id);
 
       if (!company) {
-        throw new AppError('Empresa no encontrada', 404);
+        throw new AppError(404, 'Company not found');
       }
 
       return res.status(200).json(company);
@@ -41,7 +41,7 @@ export class CompanyController {
       const exists = await CompanyModel.existsByWhatsAppPhoneId(data.whatsapp_phone_id);
       
       if (exists) {
-        throw new AppError('Ya existe una empresa con ese WhatsApp Phone ID', 409);
+        throw new AppError(409, 'Company with this WhatsApp Phone ID already exists');
       }
 
       const company = await CompanyModel.create(data);
@@ -56,7 +56,7 @@ export class CompanyController {
       const id = parseInt(req.params.id);
 
       if (isNaN(id)) {
-        throw new AppError('ID inválido', 400);
+        throw new AppError(400, 'Invalid ID');
       }
 
       const data: UpdateCompanyDTO = req.body;
@@ -64,7 +64,7 @@ export class CompanyController {
       const existingCompany = await CompanyModel.findById(id);
       
       if (!existingCompany) {
-        throw new AppError('Empresa no encontrada', 404);
+        throw new AppError(404, 'Company not found');
       }
 
       if (data.whatsapp_phone_id) {
@@ -74,7 +74,7 @@ export class CompanyController {
         );
         
         if (exists) {
-          throw new AppError('Ya existe una empresa con ese WhatsApp Phone ID', 409);
+          throw new AppError(409, 'Company with this WhatsApp Phone ID already exists');
         }
       }
 
@@ -90,19 +90,19 @@ export class CompanyController {
       const id = parseInt(req.params.id);
 
       if (isNaN(id)) {
-        throw new AppError('ID inválido', 400);
+        throw new AppError(400, 'Invalid ID');
       }
 
       const company = await CompanyModel.findById(id);
       
       if (!company) {
-        throw new AppError('Empresa no encontrada', 404);
+        throw new AppError(404, 'Company not found');
       }
 
       const deleted = await CompanyModel.delete(id);
 
       if (!deleted) {
-        throw new AppError('Error al eliminar la empresa', 500);
+        throw new AppError(500, 'Failed to delete company');
       }
 
       return res.status(200).json({ deleted: true });

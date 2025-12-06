@@ -28,7 +28,7 @@ export class CompanyModel {
     const company = await this.findById(result.insertId);
     
     if (!company) {
-      throw new AppError('Error al crear la empresa', 500);
+      throw new AppError(500, 'Failed to create company');
     }
     
     return company;

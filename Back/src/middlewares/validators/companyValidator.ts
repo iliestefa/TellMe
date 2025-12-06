@@ -3,55 +3,55 @@ import { body, ValidationChain } from 'express-validator';
 export const createCompanyValidation: ValidationChain[] = [
   body('name')
     .notEmpty()
-    .withMessage('El nombre es requerido')
+    .withMessage('Name is required')
     .isString()
-    .withMessage('El nombre debe ser un texto')
+    .withMessage('Name must be a string')
     .trim()
     .isLength({ min: 2, max: 255 })
-    .withMessage('El nombre debe tener entre 2 y 255 caracteres'),
+    .withMessage('Name must be between 2 and 255 characters'),
 
   body('whatsapp_phone_id')
     .notEmpty()
-    .withMessage('El WhatsApp Phone ID es requerido')
+    .withMessage('WhatsApp Phone ID is required')
     .isString()
-    .withMessage('El WhatsApp Phone ID debe ser un texto')
+    .withMessage('WhatsApp Phone ID must be a string')
     .trim()
     .isLength({ min: 1, max: 255 })
-    .withMessage('El WhatsApp Phone ID debe tener entre 1 y 255 caracteres'),
+    .withMessage('WhatsApp Phone ID must be between 1 and 255 characters'),
 
   body('access_token')
     .notEmpty()
-    .withMessage('El access token es requerido')
+    .withMessage('Access token is required')
     .isString()
-    .withMessage('El access token debe ser un texto')
+    .withMessage('Access token must be a string')
     .trim()
     .isLength({ min: 10 })
-    .withMessage('El access token debe tener al menos 10 caracteres'),
+    .withMessage('Access token must be at least 10 characters'),
 ];
 
 export const updateCompanyValidation: ValidationChain[] = [
   body('name')
     .optional()
     .isString()
-    .withMessage('El nombre debe ser un texto')
+    .withMessage('Name must be a string')
     .trim()
     .isLength({ min: 2, max: 255 })
-    .withMessage('El nombre debe tener entre 2 y 255 caracteres'),
+    .withMessage('Name must be between 2 and 255 characters'),
 
   body('whatsapp_phone_id')
     .optional()
     .isString()
-    .withMessage('El WhatsApp Phone ID debe ser un texto')
+    .withMessage('WhatsApp Phone ID must be a string')
     .trim()
     .isLength({ min: 1, max: 255 })
-    .withMessage('El WhatsApp Phone ID debe tener entre 1 y 255 caracteres'),
+    .withMessage('WhatsApp Phone ID must be between 1 and 255 characters'),
 
   body('access_token')
     .optional()
     .isString()
-    .withMessage('El access token debe ser un texto')
+    .withMessage('Access token must be a string')
     .trim()
     .isLength({ min: 10 })
-    .withMessage('El access token debe tener al menos 10 caracteres'),
+    .withMessage('Access token must be at least 10 characters'),
 ];
 
