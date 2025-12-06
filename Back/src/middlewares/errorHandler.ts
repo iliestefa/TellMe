@@ -1,24 +1,42 @@
 import { Request, Response, NextFunction } from 'express';
-
-export interface AppError extends Error {
-  statusCode?: number;
-  status?: string;
-  isOperational?: boolean;
-}
+import { AppError } from '../utils/AppError';
+import { ValidationError } from './validationResult';
 
 export const errorHandler = (
-  err: AppError,
+  err: Error | AppError | ValidationError,
   _req: Request,
   res: Response,
   _next: NextFunction,
 ) => {
-  const statusCode = err.statusCode || 500;
-  const status = err.status || 'error';
+  // Errores de validación
+  if (err instanceof ValidationError) {
+    return res.status(err.statusCode).json({
+      message: err.message,
+      statusCode: err.statusCode,
+      details: err.details,
+      ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
+    });
+  }
 
-  res.status(statusCode).json({
-    status,
-    message: err.message,
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
+  // Errores controlados
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({
+      message: err.message,
+      statusCode: err.statusCode,
+      ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
+    });
+  }
+
+  // Error no controlado
+  console.error('ERROR NO CONTROLADO:', err);
+  
+  return res.status(500).json({
+    message: 'Error interno del servidor',
+    statusCode: 500,
+    ...(process.env.NODE_ENV === 'development' && { 
+      stack: err.stack,
+      details: err.message 
+    }),
   });
 };
 

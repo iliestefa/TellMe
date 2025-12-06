@@ -1,0 +1,38 @@
+### Health Check
+GET http://localhost:3000/health
+
+### API Status
+GET http://localhost:3000/api
+
+###
+### COMPANIES ENDPOINTS
+###
+
+### GET all companies
+GET http://localhost:3000/api/companies
+
+### GET company by ID
+GET http://localhost:3000/api/companies/1
+
+### POST create new company
+POST http://localhost:3000/api/companies
+Content-Type: application/json
+
+{
+  "name": "Mi Empresa Test",
+  "whatsapp_phone_id": "123456789",
+  "access_token": "EAAJ1234567890abcdefghijklmnopqrstuvwxyz"
+}
+
+### PUT update company
+PUT http://localhost:3000/api/companies/1
+Content-Type: application/json
+
+{
+  "name": "Empresa Actualizada",
+  "whatsapp_phone_id": "987654321"
+}
+
+### DELETE company
+DELETE http://localhost:3000/api/companies/1
+
