@@ -1,0 +1,212 @@
+---
+alwaysApply: true
+---
+1. Project Structure and Organization
+
+All Express routes must be separated into dedicated files under /src/routes.
+
+No routes should be defined directly in app.ts or server.ts.
+
+Each route file should only define endpoints; all logic must be delegated to controllers.
+
+Controllers must remain small, readable, and free of duplicated business logic.
+
+Business logic, third-party integrations, and processing rules must live inside service modules.
+
+Any database operations must be abstracted into repository or data-access files.
+
+Shared utilities belong in /src/utils and must not access external services directly.
+
+2. Naming Conventions
+
+Files and folders use kebab-case (e.g., user-controller.ts).
+
+Variables and functions use camelCase.
+
+Classes use PascalCase.
+
+DTOs use PascalCase and end with Dto (e.g., CreateUserDto).
+
+Endpoints must follow descriptive RESTful naming.
+
+3. Express Router and REST Standards
+
+All modules must use express.Router() for routing.
+
+Follow strict REST conventions:
+
+GET → retrieve data
+
+POST → create new resource
+
+PUT/PATCH → update
+
+DELETE → remove
+
+URLs must avoid verbs (❌ /users/create, ✔️ /users).
+
+No business logic, loops, or DB calls inside route definitions.
+
+4. TypeScript Requirements
+
+All files in /src must be TypeScript (.ts).
+
+tsconfig.json should enforce:
+
+"strict": true
+
+"esModuleInterop": true
+
+BaseUrl set to src/ with absolute imports (@/services/chat.service).
+
+No usage of any unless absolutely necessary and justified with a comment.
+
+Use interfaces and types consistently for clean contracts between layers.
+
+5. Error Handling
+
+All controllers must use try/catch and forward errors with next().
+
+A global error middleware must handle all thrown errors.
+
+Error responses must follow a uniform structure:
+
+{
+  "message": "Description",
+  "statusCode": 400,
+  "details": {}
+}
+
+
+No raw stack traces or sensitive details may be sent in production responses.
+
+6. Async/Await Practices
+
+All asynchronous code must use async/await — never .then() or .catch().
+
+Extract nested awaits into helper functions to avoid deep structures.
+
+Avoid blocking operations such as heavy sync filesystem operations.
+
+7. Middleware Rules
+
+Middlewares must be small, focused, and reusable:
+
+authentication
+
+validation
+
+logging
+
+Do not include business logic inside middleware.
+
+Request validation must be done with a schema library such as Zod, Joi, or Yup.
+
+8. Logging and Monitoring
+
+Use a centralized logger (pino, winston, or equivalent).
+
+Avoid console.log except during development.
+
+Logs must exclude sensitive information (tokens, passwords, personal data).
+
+The logger must be imported from a shared utility file.
+
+9. Security Practices
+
+Secrets must be loaded from environment variables, not hardcoded.
+
+Basic security middleware must be enabled:
+
+helmet()
+
+cors with explicit config
+
+Disable x-powered-by
+
+Sanitize all user inputs to avoid injection attacks.
+
+Sensitive endpoints (auth, login, webhooks) should include rate limiting.
+
+10. Performance and Scalability
+
+Avoid blocking the event loop with CPU-intensive work; use workers if needed.
+
+Implement pagination or streaming for endpoints returning large datasets.
+
+Apply caching strategies for frequently accessed data (Redis recommended).
+
+Services must be stateless; do not store production data in memory.
+
+11. Folder Structure Recommendation
+
+The assistant should encourage the following structure:
+
+/src
+  /routes
+  /controllers
+  /services
+  /repositories
+  /middlewares
+  /utils
+  /config
+  app.ts
+  server.ts
+
+
+Each folder should only contain its corresponding responsibility.
+
+No circular dependencies between folders.
+
+12. API Responses
+
+Successful responses must follow:
+
+{
+  "data": {},
+  "message": "Success message"
+}
+
+
+Error responses must follow:
+
+{
+  "message": "Error message",
+  "statusCode": 400,
+  "details": {}
+}
+
+
+Never send HTML errors, stack traces, or unstructured responses.
+
+13. Testing
+
+Business logic must be testable independently of Express.
+
+Tests must use Jest or a similar framework.
+
+Tests must mock external services (databases, APIs, queues).
+
+No test should depend on real network calls.
+
+14. Dependencies and Code Hygiene
+
+Unused dependencies and imports must be removed.
+
+The assistant should warn about deprecated packages.
+
+No file should exceed ~200 lines unless justified.
+
+The assistant must recommend extracting logic to smaller files when needed.
+
+15. Rule Enforcement
+
+The assistant must:
+
+Warn when any rule is violated.
+
+Suggest refactoring when code is too large, unstructured, or violates REST.
+
+Propose folder reorganization if needed.
+
+Refuse to generate code that contradicts these rules unless explicitly ordered.
