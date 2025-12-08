@@ -80,6 +80,7 @@ export class CompanyController {
 
       const company = await CompanyModel.update(id, data);
       return res.status(200).json(company);
+      
     } catch (error) {
       return next(error);
     }

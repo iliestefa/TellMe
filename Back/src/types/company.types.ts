@@ -19,3 +19,5 @@ export interface UpdateCompanyDTO {
   access_token?: string;
 }
 
+
+

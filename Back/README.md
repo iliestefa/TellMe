@@ -49,6 +49,28 @@ npm run lint
 npm run format
 ```
 
+## Documentación API (Swagger)
+
+Una vez que el servidor esté corriendo, puedes acceder a la documentación interactiva de Swagger en:
+
+**http://localhost:3000/api-docs**
+
+### Estructura de la documentación
+
+La documentación de Swagger está organizada en archivos separados:
+
+```
+src/config/swagger/
+├── schemas.ts  # Definición de todos los esquemas de datos
+└── paths.ts    # Definición de todos los endpoints
+```
+
+Desde Swagger puedes:
+- Ver todos los endpoints disponibles
+- Probar las peticiones directamente desde el navegador
+- Ver los esquemas de datos
+- Ver ejemplos de request/response
+
 ## Estructura del proyecto
 
 ```
