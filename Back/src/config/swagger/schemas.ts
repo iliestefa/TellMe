@@ -148,6 +148,44 @@ export const schemas = {
       },
     },
   },
+  Message: {
+    type: 'object',
+    properties: {
+      id: { type: 'integer', example: 1 },
+      conversation_id: { type: 'integer', example: 55 },
+      direction: { type: 'string', enum: ['in', 'out'], example: 'in' },
+      type: { type: 'string', example: 'text' },
+      payload: { type: 'string', example: 'Hola' },
+      timestamp: { type: 'string', format: 'date-time', example: '2025-01-01T15:30:00.000Z' },
+    },
+  },
+  MessageListItem: {
+    type: 'object',
+    properties: {
+      id: { type: 'integer', example: 1 },
+      direction: { type: 'string', enum: ['in', 'out'], example: 'in' },
+      type: { type: 'string', example: 'text' },
+      payload: { type: 'string', example: 'Hola' },
+      timestamp: { type: 'string', format: 'date-time', example: '2025-01-01T15:30:00.000Z' },
+    },
+  },
+  CreateMessageDTO: {
+    type: 'object',
+    required: ['direction', 'type', 'payload'],
+    properties: {
+      direction: { type: 'string', enum: ['in', 'out'], example: 'out' },
+      type: { type: 'string', example: 'text' },
+      payload: { type: 'string', example: 'Hola! ¿En qué puedo ayudarte?' },
+    },
+  },
+  MessageResponse: {
+    type: 'object',
+    properties: {
+      id: { type: 'integer', example: 2 },
+      direction: { type: 'string', enum: ['in', 'out'], example: 'out' },
+      sent_to_whatsapp: { type: 'boolean', example: true },
+    },
+  },
 };
 
 

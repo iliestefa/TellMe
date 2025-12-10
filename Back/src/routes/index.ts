@@ -3,6 +3,7 @@ import companyRoutes from './companyRoutes';
 import chatbotConfigRoutes from './chatbotConfigRoutes';
 import conversationRoutes from './conversationRoutes';
 import conversationByIdRoutes from './conversationByIdRoutes';
+import messageRoutes from './messageRoutes';
 
 const router = Router();
 
@@ -14,6 +15,7 @@ router.use('/companies', companyRoutes);
 router.use('/companies/:companyId/chatbot', chatbotConfigRoutes);
 router.use('/companies/:companyId/conversations', conversationRoutes);
 router.use('/conversations', conversationByIdRoutes);
+router.use('/conversations/:conversationId/messages', messageRoutes);
 
 export default router;
 

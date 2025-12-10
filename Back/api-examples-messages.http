@@ -1,0 +1,47 @@
+###
+### MESSAGES ENDPOINTS
+###
+
+### GET messages by conversation ID
+GET http://localhost:3000/api/conversations/1/messages
+
+### POST create message (incoming)
+POST http://localhost:3000/api/conversations/1/messages
+Content-Type: application/json
+
+{
+  "direction": "in",
+  "type": "text",
+  "payload": "Hola, necesito ayuda"
+}
+
+### POST create message (outgoing)
+POST http://localhost:3000/api/conversations/1/messages
+Content-Type: application/json
+
+{
+  "direction": "out",
+  "type": "text",
+  "payload": "Hola! ¿En qué puedo ayudarte?"
+}
+
+### POST create message (image)
+POST http://localhost:3000/api/conversations/1/messages
+Content-Type: application/json
+
+{
+  "direction": "out",
+  "type": "image",
+  "payload": "https://example.com/image.jpg"
+}
+
+### POST create message (document)
+POST http://localhost:3000/api/conversations/1/messages
+Content-Type: application/json
+
+{
+  "direction": "out",
+  "type": "document",
+  "payload": "https://example.com/document.pdf"
+}
+

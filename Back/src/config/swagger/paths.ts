@@ -584,6 +584,97 @@ export const paths = {
       },
     },
   },
+  '/api/conversations/{conversationId}/messages': {
+    get: {
+      tags: ['Messages'],
+      summary: 'Get all messages by conversation ID',
+      parameters: [
+        {
+          in: 'path',
+          name: 'conversationId',
+          required: true,
+          schema: { type: 'integer' },
+          description: 'Conversation ID',
+        },
+      ],
+      responses: {
+        200: {
+          description: 'List of messages',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'array',
+                items: { $ref: '#/components/schemas/MessageListItem' },
+              },
+            },
+          },
+        },
+        400: {
+          description: 'Invalid conversation ID',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Error' },
+            },
+          },
+        },
+        404: {
+          description: 'Conversation not found',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Error' },
+            },
+          },
+        },
+      },
+    },
+    post: {
+      tags: ['Messages'],
+      summary: 'Create a new message (send message)',
+      parameters: [
+        {
+          in: 'path',
+          name: 'conversationId',
+          required: true,
+          schema: { type: 'integer' },
+          description: 'Conversation ID',
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': {
+            schema: { $ref: '#/components/schemas/CreateMessageDTO' },
+          },
+        },
+      },
+      responses: {
+        201: {
+          description: 'Message created and sent',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/MessageResponse' },
+            },
+          },
+        },
+        400: {
+          description: 'Invalid conversation ID or validation error',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/ValidationError' },
+            },
+          },
+        },
+        404: {
+          description: 'Conversation not found',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Error' },
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 
