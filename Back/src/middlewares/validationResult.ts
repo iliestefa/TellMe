@@ -20,7 +20,7 @@ export const handleValidationErrors = (
 
   if (!errors.isEmpty()) {
     const formattedErrors = errors.array().map((err) => ({
-      field: err.type === 'field' ? err.path : undefined,
+      field: err.type === 'field' ? (err as any).param : undefined,
       message: err.msg,
     }));
     
