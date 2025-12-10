@@ -193,6 +193,213 @@ export const paths = {
       },
     },
   },
+  '/api/companies/{companyId}/chatbot': {
+    get: {
+      tags: ['Chatbot Config'],
+      summary: 'Get chatbot configuration by company ID',
+      parameters: [
+        {
+          in: 'path',
+          name: 'companyId',
+          required: true,
+          schema: { type: 'integer' },
+          description: 'Company ID',
+        },
+      ],
+      responses: {
+        200: {
+          description: 'Chatbot configuration',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/ChatbotConfig' },
+            },
+          },
+        },
+        400: {
+          description: 'Invalid company ID',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Error' },
+            },
+          },
+        },
+        404: {
+          description: 'Company or chatbot config not found',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Error' },
+            },
+          },
+        },
+      },
+    },
+    post: {
+      tags: ['Chatbot Config'],
+      summary: 'Create chatbot configuration',
+      parameters: [
+        {
+          in: 'path',
+          name: 'companyId',
+          required: true,
+          schema: { type: 'integer' },
+          description: 'Company ID',
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              oneOf: [
+                { $ref: '#/components/schemas/CreateChatbotConfigAI' },
+                { $ref: '#/components/schemas/CreateChatbotConfigFlow' },
+              ],
+            },
+          },
+        },
+      },
+      responses: {
+        201: {
+          description: 'Chatbot config created',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/ChatbotConfig' },
+            },
+          },
+        },
+        400: {
+          description: 'Validation error',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/ValidationError' },
+            },
+          },
+        },
+        404: {
+          description: 'Company not found',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Error' },
+            },
+          },
+        },
+        409: {
+          description: 'Chatbot config already exists',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Error' },
+            },
+          },
+        },
+      },
+    },
+    put: {
+      tags: ['Chatbot Config'],
+      summary: 'Update chatbot configuration',
+      parameters: [
+        {
+          in: 'path',
+          name: 'companyId',
+          required: true,
+          schema: { type: 'integer' },
+          description: 'Company ID',
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': {
+            schema: { $ref: '#/components/schemas/UpdateChatbotConfigDTO' },
+          },
+        },
+      },
+      responses: {
+        200: {
+          description: 'Chatbot config updated',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  updated: { type: 'boolean', example: true },
+                },
+              },
+            },
+          },
+        },
+        400: {
+          description: 'Invalid company ID or validation error',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/ValidationError' },
+            },
+          },
+        },
+        404: {
+          description: 'Company or chatbot config not found',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Error' },
+            },
+          },
+        },
+      },
+    },
+  },
+  '/api/companies/{companyId}/chatbot/state': {
+    patch: {
+      tags: ['Chatbot Config'],
+      summary: 'Update chatbot state (activate/deactivate)',
+      parameters: [
+        {
+          in: 'path',
+          name: 'companyId',
+          required: true,
+          schema: { type: 'integer' },
+          description: 'Company ID',
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': {
+            schema: { $ref: '#/components/schemas/UpdateChatbotStateDTO' },
+          },
+        },
+      },
+      responses: {
+        200: {
+          description: 'Chatbot state updated',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  is_active: { type: 'boolean', example: false },
+                },
+              },
+            },
+          },
+        },
+        400: {
+          description: 'Invalid company ID or validation error',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/ValidationError' },
+            },
+          },
+        },
+        404: {
+          description: 'Company or chatbot config not found',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Error' },
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 

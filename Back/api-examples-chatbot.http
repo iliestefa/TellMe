@@ -1,0 +1,61 @@
+###
+### CHATBOT CONFIG ENDPOINTS
+###
+
+### GET chatbot config by company ID
+GET http://localhost:3000/api/companies/1/chatbot
+
+### POST create chatbot config (AI mode)
+POST http://localhost:3000/api/companies/1/chatbot
+Content-Type: application/json
+
+{
+  "mode": "ai",
+  "ai_provider": "openai",
+  "ai_context": "Eres un asistente virtual amable y profesional",
+  "ai_credentials": "sk-xxx",
+  "is_active": true
+}
+
+### POST create chatbot config (Flow mode)
+POST http://localhost:3000/api/companies/2/chatbot
+Content-Type: application/json
+
+{
+  "mode": "flow",
+  "flow_json": {
+    "welcome": {
+      "msg": "Hola, bienvenido a nuestro servicio"
+    },
+    "menu": {
+      "msg": "¿En qué puedo ayudarte?"
+    }
+  },
+  "is_active": true
+}
+
+### PUT update chatbot config
+PUT http://localhost:3000/api/companies/1/chatbot
+Content-Type: application/json
+
+{
+  "mode": "ai",
+  "ai_context": "Nuevo contexto para el asistente"
+}
+
+### PATCH update chatbot state (activate)
+PATCH http://localhost:3000/api/companies/1/chatbot/state
+Content-Type: application/json
+
+{
+  "is_active": true
+}
+
+### PATCH update chatbot state (deactivate)
+PATCH http://localhost:3000/api/companies/1/chatbot/state
+Content-Type: application/json
+
+{
+  "is_active": false
+}
+

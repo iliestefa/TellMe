@@ -51,6 +51,64 @@ export const schemas = {
       },
     },
   },
+  ChatbotConfig: {
+    type: 'object',
+    properties: {
+      id: { type: 'integer', example: 1 },
+      company_id: { type: 'integer', example: 3 },
+      mode: { type: 'string', enum: ['ai', 'flow'], example: 'ai' },
+      ai_provider: { type: 'string', nullable: true, example: 'openai' },
+      ai_context: { type: 'string', nullable: true, example: 'Eres un bot...' },
+      ai_credentials: { type: 'string', nullable: true, example: 'ENCRYPTED' },
+      flow_json: { type: 'object', nullable: true, example: null },
+      is_active: { type: 'boolean', example: true },
+      created_at: { type: 'string', format: 'date-time' },
+      updated_at: { type: 'string', format: 'date-time' },
+    },
+  },
+  CreateChatbotConfigAI: {
+    type: 'object',
+    required: ['mode', 'ai_provider', 'is_active'],
+    properties: {
+      mode: { type: 'string', enum: ['ai'], example: 'ai' },
+      ai_provider: { type: 'string', example: 'openai' },
+      ai_context: { type: 'string', example: 'Eres un asistente...' },
+      ai_credentials: { type: 'string', example: 'sk-xxx' },
+      is_active: { type: 'boolean', example: true },
+    },
+  },
+  CreateChatbotConfigFlow: {
+    type: 'object',
+    required: ['mode', 'flow_json', 'is_active'],
+    properties: {
+      mode: { type: 'string', enum: ['flow'], example: 'flow' },
+      flow_json: {
+        type: 'object',
+        example: {
+          welcome: { msg: 'Hola' },
+        },
+      },
+      is_active: { type: 'boolean', example: true },
+    },
+  },
+  UpdateChatbotConfigDTO: {
+    type: 'object',
+    properties: {
+      mode: { type: 'string', enum: ['ai', 'flow'], example: 'ai' },
+      ai_provider: { type: 'string', example: 'openai' },
+      ai_context: { type: 'string', example: 'Nuevo contexto' },
+      ai_credentials: { type: 'string', example: 'sk-xxx' },
+      flow_json: { type: 'object', example: { welcome: { msg: 'Hola' } } },
+      is_active: { type: 'boolean', example: true },
+    },
+  },
+  UpdateChatbotStateDTO: {
+    type: 'object',
+    required: ['is_active'],
+    properties: {
+      is_active: { type: 'boolean', example: false },
+    },
+  },
 };
 
 
