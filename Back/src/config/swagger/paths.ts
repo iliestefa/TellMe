@@ -675,6 +675,129 @@ export const paths = {
       },
     },
   },
+  '/api/webhooks/whatsapp': {
+    get: {
+      tags: ['Webhooks'],
+      summary: 'Webhook verification endpoint (Meta)',
+      description: 'Endpoint used by Meta to verify the webhook URL',
+      parameters: [
+        {
+          in: 'query',
+          name: 'hub.mode',
+          required: true,
+          schema: { type: 'string', example: 'subscribe' },
+          description: 'Verification mode',
+        },
+        {
+          in: 'query',
+          name: 'hub.verify_token',
+          required: true,
+          schema: { type: 'string', example: 'tellme_verify_token' },
+          description: 'Verification token',
+        },
+        {
+          in: 'query',
+          name: 'hub.challenge',
+          required: true,
+          schema: { type: 'string', example: 'test_challenge_123' },
+          description: 'Challenge string to return',
+        },
+      ],
+      responses: {
+        200: {
+          description: 'Webhook verified - returns challenge',
+          content: {
+            'text/plain': {
+              schema: { $ref: '#/components/schemas/WebhookVerificationResponse' },
+            },
+          },
+        },
+        403: {
+          description: 'Invalid verify token',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Error' },
+            },
+          },
+        },
+      },
+    },
+    post: {
+      tags: ['Webhooks'],
+      summary: 'Receive WhatsApp webhook events',
+      description:
+        'Receives incoming messages, statuses, and other events from WhatsApp Business API',
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                object: { type: 'string', example: 'whatsapp_business_account' },
+                entry: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      id: { type: 'string', example: '123456789' },
+                      changes: {
+                        type: 'array',
+                        items: {
+                          type: 'object',
+                          properties: {
+                            value: {
+                              type: 'object',
+                              properties: {
+                                messaging_product: { type: 'string', example: 'whatsapp' },
+                                metadata: {
+                                  type: 'object',
+                                  properties: {
+                                    phone_number_id: { type: 'string', example: '123456789' },
+                                  },
+                                },
+                                messages: {
+                                  type: 'array',
+                                  items: {
+                                    type: 'object',
+                                    properties: {
+                                      from: { type: 'string', example: '593987123456' },
+                                      type: { type: 'string', example: 'text' },
+                                      text: {
+                                        type: 'object',
+                                        properties: {
+                                          body: { type: 'string', example: 'Hola' },
+                                        },
+                                      },
+                                    },
+                                  },
+                                },
+                              },
+                            },
+                            field: { type: 'string', example: 'messages' },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      responses: {
+        200: {
+          description: 'Webhook received successfully',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/WebhookReceivedResponse' },
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 

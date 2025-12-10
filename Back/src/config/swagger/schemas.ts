@@ -186,6 +186,16 @@ export const schemas = {
       sent_to_whatsapp: { type: 'boolean', example: true },
     },
   },
+  WebhookVerificationResponse: {
+    type: 'string',
+    example: 'test_challenge_123',
+  },
+  WebhookReceivedResponse: {
+    type: 'object',
+    properties: {
+      received: { type: 'boolean', example: true },
+    },
+  },
 };
 
 

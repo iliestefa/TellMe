@@ -1,0 +1,122 @@
+###
+### WEBHOOKS ENDPOINTS
+###
+
+### GET webhook verification (Meta)
+GET http://localhost:3000/api/webhooks/whatsapp?hub.mode=subscribe&hub.verify_token=tellme_verify_token&hub.challenge=test_challenge_123
+
+### POST webhook - Incoming text message
+POST http://localhost:3000/api/webhooks/whatsapp
+Content-Type: application/json
+
+{
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "123456789",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "15551234567",
+              "phone_number_id": "123456789"
+            },
+            "contacts": [
+              {
+                "profile": {
+                  "name": "John Doe"
+                },
+                "wa_id": "593987123456"
+              }
+            ],
+            "messages": [
+              {
+                "from": "593987123456",
+                "id": "wamid.ABC123",
+                "timestamp": "1234567890",
+                "type": "text",
+                "text": {
+                  "body": "Hola, necesito ayuda"
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}
+
+### POST webhook - Message status update
+POST http://localhost:3000/api/webhooks/whatsapp
+Content-Type: application/json
+
+{
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "123456789",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "15551234567",
+              "phone_number_id": "123456789"
+            },
+            "statuses": [
+              {
+                "id": "wamid.ABC123",
+                "status": "delivered",
+                "timestamp": "1234567890",
+                "recipient_id": "593987123456"
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}
+
+### POST webhook - Image message
+POST http://localhost:3000/api/webhooks/whatsapp
+Content-Type: application/json
+
+{
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "123456789",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "15551234567",
+              "phone_number_id": "123456789"
+            },
+            "messages": [
+              {
+                "from": "593987123456",
+                "id": "wamid.XYZ456",
+                "timestamp": "1234567890",
+                "type": "image",
+                "image": {
+                  "id": "image_id_123",
+                  "mime_type": "image/jpeg",
+                  "sha256": "abc123def456"
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}
+

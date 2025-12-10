@@ -4,6 +4,7 @@ import chatbotConfigRoutes from './chatbotConfigRoutes';
 import conversationRoutes from './conversationRoutes';
 import conversationByIdRoutes from './conversationByIdRoutes';
 import messageRoutes from './messageRoutes';
+import webhookRoutes from './webhookRoutes';
 
 const router = Router();
 
@@ -16,6 +17,7 @@ router.use('/companies/:companyId/chatbot', chatbotConfigRoutes);
 router.use('/companies/:companyId/conversations', conversationRoutes);
 router.use('/conversations', conversationByIdRoutes);
 router.use('/conversations/:conversationId/messages', messageRoutes);
+router.use('/webhooks', webhookRoutes);
 
 export default router;
 
