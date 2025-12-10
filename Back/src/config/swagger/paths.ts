@@ -400,6 +400,190 @@ export const paths = {
       },
     },
   },
+  '/api/companies/{companyId}/conversations': {
+    get: {
+      tags: ['Conversations'],
+      summary: 'Get all conversations by company ID',
+      parameters: [
+        {
+          in: 'path',
+          name: 'companyId',
+          required: true,
+          schema: { type: 'integer' },
+          description: 'Company ID',
+        },
+      ],
+      responses: {
+        200: {
+          description: 'List of conversations',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'array',
+                items: { $ref: '#/components/schemas/ConversationListItem' },
+              },
+            },
+          },
+        },
+        400: {
+          description: 'Invalid company ID',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Error' },
+            },
+          },
+        },
+        404: {
+          description: 'Company not found',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Error' },
+            },
+          },
+        },
+      },
+    },
+    post: {
+      tags: ['Conversations'],
+      summary: 'Create a new conversation',
+      parameters: [
+        {
+          in: 'path',
+          name: 'companyId',
+          required: true,
+          schema: { type: 'integer' },
+          description: 'Company ID',
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': {
+            schema: { $ref: '#/components/schemas/CreateConversationDTO' },
+          },
+        },
+      },
+      responses: {
+        201: {
+          description: 'Conversation created',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Conversation' },
+            },
+          },
+        },
+        400: {
+          description: 'Invalid company ID or validation error',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/ValidationError' },
+            },
+          },
+        },
+        404: {
+          description: 'Company not found',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Error' },
+            },
+          },
+        },
+      },
+    },
+  },
+  '/api/conversations/{conversationId}': {
+    get: {
+      tags: ['Conversations'],
+      summary: 'Get conversation by ID',
+      parameters: [
+        {
+          in: 'path',
+          name: 'conversationId',
+          required: true,
+          schema: { type: 'integer' },
+          description: 'Conversation ID',
+        },
+      ],
+      responses: {
+        200: {
+          description: 'Conversation details',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Conversation' },
+            },
+          },
+        },
+        400: {
+          description: 'Invalid conversation ID',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Error' },
+            },
+          },
+        },
+        404: {
+          description: 'Conversation not found',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Error' },
+            },
+          },
+        },
+      },
+    },
+    put: {
+      tags: ['Conversations'],
+      summary: 'Update a conversation',
+      parameters: [
+        {
+          in: 'path',
+          name: 'conversationId',
+          required: true,
+          schema: { type: 'integer' },
+          description: 'Conversation ID',
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': {
+            schema: { $ref: '#/components/schemas/UpdateConversationDTO' },
+          },
+        },
+      },
+      responses: {
+        200: {
+          description: 'Conversation updated',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  updated: { type: 'boolean', example: true },
+                },
+              },
+            },
+          },
+        },
+        400: {
+          description: 'Invalid conversation ID or validation error',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/ValidationError' },
+            },
+          },
+        },
+        404: {
+          description: 'Conversation not found',
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/Error' },
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 

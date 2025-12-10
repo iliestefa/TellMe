@@ -109,6 +109,45 @@ export const schemas = {
       is_active: { type: 'boolean', example: false },
     },
   },
+  Conversation: {
+    type: 'object',
+    properties: {
+      id: { type: 'integer', example: 55 },
+      company_id: { type: 'integer', example: 3 },
+      customer_phone: { type: 'string', example: '593987123456' },
+      status: { type: 'string', example: 'open' },
+      metadata: { type: 'object', nullable: true, example: {} },
+      created_at: { type: 'string', format: 'date-time' },
+      updated_at: { type: 'string', format: 'date-time' },
+    },
+  },
+  ConversationListItem: {
+    type: 'object',
+    properties: {
+      id: { type: 'integer', example: 55 },
+      customer_phone: { type: 'string', example: '593987123456' },
+      status: { type: 'string', example: 'open' },
+    },
+  },
+  CreateConversationDTO: {
+    type: 'object',
+    required: ['customer_phone', 'status'],
+    properties: {
+      customer_phone: { type: 'string', example: '593987111222' },
+      status: { type: 'string', example: 'open' },
+      metadata: { type: 'object', example: {} },
+    },
+  },
+  UpdateConversationDTO: {
+    type: 'object',
+    properties: {
+      status: { type: 'string', example: 'closed' },
+      metadata: {
+        type: 'object',
+        example: { note: 'Usuario atendido' },
+      },
+    },
+  },
 };
 
 

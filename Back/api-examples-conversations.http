@@ -1,0 +1,53 @@
+###
+### CONVERSATIONS ENDPOINTS
+###
+
+### GET conversations by company ID
+GET http://localhost:3000/api/companies/1/conversations
+
+### GET conversation by ID
+GET http://localhost:3000/api/conversations/1
+
+### POST create conversation
+POST http://localhost:3000/api/companies/1/conversations
+Content-Type: application/json
+
+{
+  "customer_phone": "593987111222",
+  "status": "open",
+  "metadata": {}
+}
+
+### POST create conversation with metadata
+POST http://localhost:3000/api/companies/1/conversations
+Content-Type: application/json
+
+{
+  "customer_phone": "+593987123456",
+  "status": "open",
+  "metadata": {
+    "source": "whatsapp",
+    "agent": "bot"
+  }
+}
+
+### PUT update conversation
+PUT http://localhost:3000/api/conversations/1
+Content-Type: application/json
+
+{
+  "status": "closed",
+  "metadata": {
+    "note": "Usuario atendido",
+    "closed_by": "agent"
+  }
+}
+
+### PUT update conversation status only
+PUT http://localhost:3000/api/conversations/1
+Content-Type: application/json
+
+{
+  "status": "pending"
+}
+

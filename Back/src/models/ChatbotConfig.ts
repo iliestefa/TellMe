@@ -37,7 +37,7 @@ export class ChatbotConfigModel {
   ): Promise<ChatbotConfig> {
     const flowJson = data.flow_json ? JSON.stringify(data.flow_json) : null;
 
-    const [result] = await pool.query<ResultSetHeader>(
+    await pool.query<ResultSetHeader>(
       `INSERT INTO chatbot_config 
        (company_id, mode, ai_provider, ai_context, ai_credentials, flow_json, is_active) 
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
