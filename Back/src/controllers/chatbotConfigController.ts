@@ -57,6 +57,10 @@ export class ChatbotConfigController {
 
       const data: CreateChatbotConfigDTO = req.body;
 
+      if (data.mode !== 'ai' && data.mode !== 'flow') {
+        throw new AppError(400, 'Mode must be either "ai" or "flow"');
+      }
+
       // Validate mode-specific fields
       if (data.mode === 'ai') {
         if (!data.ai_provider) {
@@ -96,6 +100,24 @@ export class ChatbotConfigController {
       }
 
       const data: UpdateChatbotConfigDTO = req.body;
+
+      // Validate mode if provided
+      if (data.mode !== undefined) {
+        if (data.mode !== 'ai' && data.mode !== 'flow') {
+          throw new AppError(400, 'Mode must be either "ai" or "flow"');
+        }
+
+        // Validate mode-specific fields
+        if (data.mode === 'ai') {
+          if (data.ai_provider === undefined && !existingConfig.ai_provider) {
+            throw new AppError(400, 'ai_provider is required for AI mode');
+          }
+        } else if (data.mode === 'flow') {
+          if (data.flow_json === undefined && !existingConfig.flow_json) {
+            throw new AppError(400, 'flow_json is required for flow mode');
+          }
+        }
+      }
 
       const config = await ChatbotConfigModel.update(companyId, data);
 

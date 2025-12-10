@@ -47,6 +47,10 @@ export class MessageController {
 
       const data: CreateMessageDTO = req.body;
 
+      if (data.direction !== 'in' && data.direction !== 'out') {
+        throw new AppError(400, 'Direction must be either "in" or "out"');
+      }
+
       const message = await MessageModel.create(conversationId, data);
 
       // Simulate WhatsApp sending logic

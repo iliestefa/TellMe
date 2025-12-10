@@ -79,6 +79,11 @@ export class CompanyController {
       }
 
       const company = await CompanyModel.update(id, data);
+      
+      if (!company) {
+        throw new AppError(404, 'Company not found after update');
+      }
+      
       return res.status(200).json(company);
       
     } catch (error) {
